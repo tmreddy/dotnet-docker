@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?database password not set}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  app:
+    build:
+      context: .
+    ports:
+      - 5005:80
+    depends_on:
+      - db
+volumes:
+  postgres-data:
